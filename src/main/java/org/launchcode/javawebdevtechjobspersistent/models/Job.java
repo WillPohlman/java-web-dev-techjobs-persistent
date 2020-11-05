@@ -1,35 +1,31 @@
 package org.launchcode.javawebdevtechjobspersistent.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Job extends AbstractEntity{
 
-    private String name;
-
     @ManyToOne
     private Employer employer;
 
-    private String skills;
+    @ManyToMany
+    private List<Skill> skills;
 
     public Job() {
     }
 
-    public Job(Employer anEmployer, String someSkills) {
+    public Job(@NotBlank @Size(min = 1, max = 100, message = "Name must be between 1 and 100 characters") String name, Employer anEmployer, List<Skill> skills) {
         super();
+        this.setName(name);
         this.employer = anEmployer;
-        this.skills = someSkills;
+        this.skills = skills;
     }
 
     // Getters and setters.
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Employer getEmployer() {
         return employer;
@@ -39,11 +35,12 @@ public class Job extends AbstractEntity{
         this.employer = employer;
     }
 
-    public String getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(String skills) {
+    public void setSkills(List<Skill> skills)
+    {
         this.skills = skills;
     }
 }
